@@ -1,0 +1,1 @@
+We can use a filter-and-examine solution. First we pick a leaf-to-root path from T2. We can choose the right most path, or we can choose the logest path to maximize the filter power. Then start from T1 bottom, we use the picked path to find candidate roots and then we examine them.

@@ -1,0 +1,5 @@
+The code test if a number has only one 1 bit.  If the number has more than one
+bit that is 1, then except the lowest 1 bit, all higher 1 bits are not changed
+in ``n-1``, so (((n & (n-1))) != 0).
+
+!!!!ERROR: Actually the number can has no 1 bit. So the correct answer is testing if the number has only one 1 bit or its 0 (i.e. the number is a power of 2)
