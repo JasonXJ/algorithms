@@ -34,8 +34,6 @@ class Solution(object):
             bottom -= 1
 
             # Go left
-            import ipdb
-            ipdb.set_trace()
             col -= 1
             if col == left:
                 break

@@ -1,10 +1,10 @@
-# This version did not pass the leetcode test. I think the question is not very
-# good and confusing because they want us to copy a UNDIRECTED graph, but the
-# representation is for directed graph. For example, for a graph with only two
-# nodes: A - B. Their representation only contain an edge from A to B and no
-# edge is from B to A. Actually, this makes the problem easier. However, I
-# wrote one which handle the "correct" representation, so my code could not
-# pass the test. And I am don't want to change the code.
+# This version did not pass the leetcode test. I think the question is
+# confusing and not very good because they want us to copy a UNDIRECTED graph,
+# but the representation is for directed graph. For example, for a graph with
+# only two nodes: A - B. Their representation only contain an edge from A to B
+# and no edge is from B to A. Actually, this makes the problem easier. However,
+# I wrote one which handle the "correct" representation, so my code could not
+# pass the test. And I don't want to change the code.
 class Solution(object):
     @staticmethod
     def printGraph(node):
