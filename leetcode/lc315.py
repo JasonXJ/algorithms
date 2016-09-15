@@ -1,4 +1,7 @@
-# O(n log n) solution using balance binary search tree.
+# O(n log n) solution using balance binary search tree. Also note that no
+# deduplication is made for the tree, which actually does not affect the
+# correctness because we always travel from the root and stop when we first
+# meet a node with the specified value.
 class Solution(object):
     class Tree(object):
         class Node(object):

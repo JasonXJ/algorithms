@@ -29,6 +29,11 @@ class Solution(object):
             longest_length = max(longest_length, ri - li + 1)
 
         return longest_length
+    
+
+    # This is for question No.159
+    def lengthOfLongestSubstringTwoDistinct(self, s):
+        return self.lengthOfLongestSubstringKDistinct(s, 2)
 
 
 def test():
