@@ -1,5 +1,11 @@
+# encoding=utf-8
+
 from collections import Counter
 from itertools import chain
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 # An O(n) solution.
 class Solution(object):
@@ -73,67 +79,34 @@ class Solution(object):
         """
         if str == '':
             return ''
-        if k <= 1:
+        stat = Counter(str)
+        F = max(stat.values())
+        if F == 1:
             return str
-        letter_counts = Counter(str)
-        max_frequency = max(letter_counts.values())
-        most_frequent_letters = [
-            letter
-            for letter, frequency
-            in letter_counts.items()
-            if frequency == max_frequency
-        ]
-        for x in most_frequent_letters:
-            del letter_counts[x]
-        wrappers = [
-            letter
-            for letter, frequency
-            in letter_counts.items()
-            if frequency == max_frequency - 1
-        ]
-        for x in wrappers:
-            del letter_counts[x]
-
-        if max_frequency == 1:
-            return str
-        else:
-            base_slot_size, remaining_spaces = divmod(
-                len(str) - max_frequency * len(most_frequent_letters),
-                max_frequency - 1
-            )
-        
-        if base_slot_size + len(most_frequent_letters) < k:
-            # Not possible
+        F_letters = ''.join(letter for letter, count in stat.items() if count == F)
+        if ((len(str) - len(F_letters) * F) // (F - 1)) + len(F_letters) < k:
             return ''
-        
-        # Construct the framework (i.e. fill the most frequent letters and leave the empty slots)
-        rv = [None] * len(str)
-        slot_indexes = []
-        rv_cursor = 0
-        slot_sizes = [base_slot_size + 1] * remaining_spaces + \
-            [base_slot_size] * (max_frequency - 1 - remaining_spaces)
-        for slot_size in slot_sizes:
-            for x in most_frequent_letters:
-                rv[rv_cursor] = x
-                rv_cursor += 1
-            slot_indexes.append(rv_cursor)
-            rv_cursor += slot_size
-        for x in most_frequent_letters:
-            rv[rv_cursor] = x
-            rv_cursor += 1
-        assert rv_cursor == len(rv)
-
-        # Fill non-most-frequent letters one by one (wrappers first).
-        slot_indexes_cursor = 0
-        for x, count in chain([(x, max_frequency - 1) for x in wrappers], letter_counts.items()):
+        wrappers = ''.join(letter for letter, count in stat.items() if count == F - 1)
+        for x in chain(F_letters, wrappers):
+            del stat[x]
+        slots = [[] for _ in range(F - 1)]
+        slots_cursor = 0
+        for c, count in stat.items():
             for _ in range(count):
-                rv[slot_indexes[slot_indexes_cursor]] = x
-                slot_indexes[slot_indexes_cursor] += 1
-                slot_indexes_cursor += 1
-                if slot_indexes_cursor == len(slot_indexes):
-                    slot_indexes_cursor = 0
+                slots[slots_cursor].append(c)
+                slots_cursor += 1
+                if slots_cursor == len(slots):
+                    slots_cursor = 0
 
-        return ''.join(rv)
+        slot_head = F_letters + wrappers
+        sio = StringIO()
+        for slot in slots:
+            sio.write(slot_head)
+            for x in slot:
+                sio.write(x)
+        sio.write(F_letters)
+        return sio.getvalue()
+        
 
 
 def test():
