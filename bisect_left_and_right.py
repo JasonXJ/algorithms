@@ -1,6 +1,34 @@
 # This implement the bisect_left and bisect_right
 
 def bisect_left(a, x):
+    lo = 0
+    hi = len(a)
+    
+    while lo < hi:
+        mi = (lo + hi) // 2
+        if a[mi] >= x:
+            hi = mi
+        else:
+            lo = mi + 1
+    
+    return lo
+
+
+def bisect_right(a, x):
+    lo = 0
+    hi = len(a)
+
+    while lo < hi:
+        mi = (lo + hi) // 2
+        if a[mi] > x:
+            hi = mi
+        else:
+            lo = mi + 1
+
+    return lo
+
+
+def bisect_left2(a, x):
     l = 0
     r = len(a) - 1
     while r >= l:
@@ -11,7 +39,8 @@ def bisect_left(a, x):
             l = m + 1
     return l
 
-def bisect_right(a, x):
+
+def bisect_right2(a, x):
     l = 0
     r = len(a) - 1
     while r >= l:
@@ -21,6 +50,7 @@ def bisect_right(a, x):
         else:
             l = m + 1
     return l
+
 
 def test():
     assert bisect_left([], 0) == 0
@@ -49,6 +79,7 @@ def test():
     assert bisect_right([1,2,3,3,4,5], 3) == 4
     assert bisect_left([1,2,3,3,3,4,5], 3) == 2
     assert bisect_right([1,2,3,3,3,4,5], 3) == 5
+
 
 def test_random():
     from bisect import bisect_left as bl, bisect_right as br
