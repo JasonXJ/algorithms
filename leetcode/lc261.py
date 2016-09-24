@@ -1,8 +1,37 @@
+class Solution(object):
+    def validTree(self, n, edges):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :rtype: bool
+        """
+        if len(edges) != n - 1:
+            return False
+
+        graph = {i:[] for i in range(n)}
+        for x, y in edges:
+            graph[x].append(y)
+            graph[y].append(x)
+
+        def dfs(node_id):
+            if node_id not in graph:
+                # The node has been discovered.
+                return
+            neighbours = graph.pop(node_id)
+            for x in neighbours:
+                dfs(x)
+
+
+        dfs(0)
+        # If len(graph) == 0, the graph is connected, which mean the graph is a
+        # valid tree because the number of edges equals n - 1.
+        return len(graph) == 0
+
+
 from collections import namedtuple
 
 Union = namedtuple('Union', 'parent, size')
-
-class Solution(object):
+class UnionFindSolution(object):
     class UnionFind(object):
         def __init__(self, n):
             self.unions = [Union(i, 1) for i in range(n)]
