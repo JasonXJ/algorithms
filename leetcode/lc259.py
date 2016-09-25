@@ -1,4 +1,25 @@
+# O(n^2)
 class Solution(object):
+    def threeSumSmaller(self, nums, target):
+        nums.sort()
+        count = 0
+        for i in range(len(nums) - 2):
+            j = i + 1
+            k = len(nums) - 1
+            while True:
+                while j < k and nums[i] + nums[j] + nums[k] >= target:
+                    k -= 1
+                if j < k:
+                    count += k - j
+                    j += 1
+                else:
+                    break
+
+        return count
+
+
+# O(n^2)
+class Solution2(object):
     def threeSumSmaller(self, nums, target):
         nums.sort()
         triple_count = 0

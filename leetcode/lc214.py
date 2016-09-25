@@ -35,7 +35,9 @@ class Solution(object):
 
 
 # Compressing the string makes this solution much faster than `NaiveSolution`
-# in some cases and allow this solution to pass the tests on Leetcode. However, the worst case complexity is actually not improved at all. So this solution is kind of a cheat.
+# in some cases and allow this solution to pass the tests on Leetcode. However,
+# the worst case complexity is actually not improved at all. So this solution
+# is kind of a cheat.
 class CompressedSolution(object):
     def shortestPalindrome(self, s):
         """

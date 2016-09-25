@@ -1,5 +1,42 @@
 class Solution(object):
     def findStrobogrammatic(self, n):
+        assert n >= 0
+        if n == 0:
+            return []
+        if n == 1:
+            return ['0', '1', '8']
+        letters = [None] * n
+        rv = []
+
+        def fill(left_index):
+            if left_index == n // 2 and n & 1:
+                # n is odd, there is one more value to fill.
+                for x in ('0', '1', '8'):
+                    letters[left_index] = x
+                    fill(left_index + 1)
+            elif left_index >= n // 2:
+                rv.append(''.join(letters))
+            else:
+                if left_index == 0:
+                    self_alike = ('1', '8')
+                else:
+                    self_alike = ('0', '1', '8')
+                for x in self_alike:
+                    letters[left_index] = letters[n - 1 - left_index] = x
+                    fill(left_index + 1)
+                for x, y in [('6', '9'), ('9', '6')]:
+                    letters[left_index] = x
+                    letters[n - 1 - left_index] = y
+                    fill(left_index + 1)
+
+
+        fill(0)
+        return rv
+        
+
+
+class Solution2(object):
+    def findStrobogrammatic(self, n):
         """
         :type n: int
         :rtype: List[str]
