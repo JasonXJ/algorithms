@@ -6,10 +6,4 @@ class Solution(object):
         """
         if n <= 0:
             return False
-        while True:
-            if n & 1:
-                if n == 1:
-                    return True
-                else:
-                    return False
-            n >>= 1
+        return n & (n - 1) == 0

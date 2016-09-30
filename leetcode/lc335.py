@@ -1,3 +1,27 @@
+# This is a solution much better than :class:`Solution`. Instead of maintaining
+# the four boundary lines, this solution checks if the current line is crossing
+# one of the most recent lines. See lc335_2.pdf for the different crossing
+# cases.
+class MuchBetterSolution(object):
+    def isSelfCrossing(self, x):
+        if len(x) <= 3:
+            return False
+
+        for i in range(3, len(x)):
+            # Case 1.
+            if x[i-1] <= x[i-3] and x[i] >= x[i-2]:
+                return True
+            # Case 2.
+            if i >= 4 and x[i] + x[i-4] == x[i-2] and x[i-1] == x[i-3]:
+                return True
+            # Case 3.
+            if (i >= 5 and x[i-4] < x[i-2] <= x[i] + x[i-4] and
+                    x[i-3] - x[i-5] <= x[i-1] <= x[i-3]):
+                return True
+
+        return False
+
+
 class Point:
     def __init__(self, x=None, y=None, point=None):
         self.x = x
@@ -19,7 +43,8 @@ class Point:
         return setattr(self, attrname, val)
 
 
-# A very complicated solution.
+# A very complicated solution which maintains four previous lines that matter.
+# See lc335.pdf
 class Solution(object):
     def isSelfCrossing(self, x):
         """
@@ -119,12 +144,15 @@ class Solution(object):
 
 
 def test():
-    assert Solution().isSelfCrossing([2,1,1,2]) == True
-    assert Solution().isSelfCrossing([1,2,3,4]) == False
-    assert Solution().isSelfCrossing([1,1,1,1]) == True
-    assert Solution().isSelfCrossing([1,1,2,2,3,3,3]) == False
-    assert Solution().isSelfCrossing([1,1,2,2,3,3,3,1]) == True
-    assert Solution().isSelfCrossing([1,1,2,2,3,3,3,2]) == True
-    assert Solution().isSelfCrossing([1,1,2,2,3,3,3,3]) == True
-    assert Solution().isSelfCrossing([1,1,2,2,3,3,3,4]) == True
-    assert Solution().isSelfCrossing([1,1,2,2,3,3,3,100]) == True
+    for S in (Solution, MuchBetterSolution):
+        assert S().isSelfCrossing([2,1,1,2]) == True
+        assert S().isSelfCrossing([1,2,3,4]) == False
+        assert S().isSelfCrossing([1,1,1,1]) == True
+        assert S().isSelfCrossing([1,1,2,2,3,3,3]) == False
+        assert S().isSelfCrossing([1,1,2,2,3,3,3,1]) == True
+        assert S().isSelfCrossing([1,1,2,2,3,3,3,2]) == True
+        assert S().isSelfCrossing([1,1,2,2,3,3,3,3]) == True
+        assert S().isSelfCrossing([1,1,2,2,3,3,3,4]) == True
+        assert S().isSelfCrossing([1,1,2,2,3,3,3,100]) == True
+        assert S().isSelfCrossing([1,1,2,1,1]) == True
+        assert S().isSelfCrossing([3,3,3,2,1,1]) == False
