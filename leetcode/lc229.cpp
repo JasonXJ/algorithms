@@ -31,25 +31,25 @@ using namespace std;
  * Let's take a look at the "else" clause of the first for loop. We
  * can consider this step generating a triplet {x, y, z}, where x is
  * the current element of the array that we are processing, y is one
- * of the element with value candidate1 and z is one of the element
- * with value candidate2. Note that we can prove that the values of x,
+ * of the element with value `candidate1` and z is one of the element
+ * with value `candidate2`. Note that we can prove that the values of x,
  * y and z must be different from each other. When the first for loop
  * is completed, it is obvious that every element of the input array
- * is in exactly one of the triplet, except for count1 of the elements
- * with value candidate1 and count2 of the elements with candidate2.
- * These count1 + count2 elements are not in any triplets.
+ * is in exactly one of the triplet, except for `count1` of the elements
+ * with value `candidate1` and `count2` of the elements with `candidate2`.
+ * These `count1 + count2` elements are not in any triplets.
  *
  * Let's assume that m is a majority value and m equals neither
- * candidate1 nor candidate2 when the loop is completed. Let's say
+ * `candidate1` nor `candidate2` when the loop is completed. Let's say
  * value m appears k times in the input array. Thus, k > floor(n/3) by
  * definition, where n is the size of the input array.  Since the
  * three elements of a triplet must have different values, there must
  * be exactly k triplets generated in the above-mentioned "else"
- * clause which contain an element with value m. Obviously, these m
- * triplets contain totally 3k > n different elements, which
+ * clause each of which contains an element with value m. Obviously,
+ * these m triplets contain totally 3k > n different elements, which
  * contradicts the fact that the input array has only n elements.
- * Therefore, m must equal candidate1 or candidate2 when the loop is
- * completed.
+ * Therefore, m must equal `candidate1` or `candidate2` when the loop
+ * is completed.
  *
  * */
 class Solution {
