@@ -8,13 +8,106 @@
 using namespace std;
 
 
-/* O(n) time and O(1) *extra* (this solution will modify the input
- * vector) space solution using partition. Note that there is a post
- * about using some majority vote algorithm which does not modify the
- * array:
- * https://discuss.leetcode.com/topic/17564/boyer-moore-majority-vote-algorithm-and-my-elaboration
+/* O(n) time and O(1) space solution (note that unlike
+ * PartitionSolution, this one does not modify the input array and
+ * the worst case complexity (instead of the average complexity) is
+ * O(n))
+ *
+ *
+ * References:
+ *
+ * 1. https://gregable.com/2013/10/majority-vote-algorithm-find-majority.html
+ * 2. https://discuss.leetcode.com/topic/17564/boyer-moore-majority-vote-algorithm-and-my-elaboration
+ *
+ *
+ * Proof:
+ *
+ * Since we scan the array again at the end to count the actual
+ * appearances of `candidate1` and `candidate2`, what we need to prove
+ * is that if a value is one of the majority values, it must equal
+ * either `candidate1` or `candidate2` at the end of the first for
+ * loop.
+ *
+ * Let's take a look at the "else" clause of the first for loop. We
+ * can consider this step generating a triplet {x, y, z}, where x is
+ * the current element of the array that we are processing, y is one
+ * of the element with value candidate1 and z is one of the element
+ * with value candidate2. Note that we can prove that the values of x,
+ * y and z must be different from each other. When the first for loop
+ * is completed, it is obvious that every element of the input array
+ * is in exactly one of the triplet, except for count1 of the elements
+ * with value candidate1 and count2 of the elements with candidate2.
+ * These count1 + count2 elements are not in any triplets.
+ *
+ * Let's assume that m is a majority value and m equals neither
+ * candidate1 nor candidate2 when the loop is completed. Let's say
+ * value m appears k times in the input array. Thus, k > floor(n/3) by
+ * definition, where n is the size of the input array.  Since the
+ * three elements of a triplet must have different values, there must
+ * be exactly k triplets generated in the above-mentioned "else"
+ * clause which contain an element with value m. Obviously, these m
+ * triplets contain totally 3k > n different elements, which
+ * contradicts the fact that the input array has only n elements.
+ * Therefore, m must equal candidate1 or candidate2 when the loop is
+ * completed.
+ *
  * */
 class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int candidate1 = 0, count1 = 0;
+        int candidate2 = 1, count2 = 0;
+        // First scan.
+        for (const auto &x : nums) {
+            if (candidate1 == x)
+                ++count1;
+            else if (candidate2 == x)
+                ++count2;
+            else if (count1 == 0)
+            {
+                candidate1 = x;
+                count1 = 1;
+            }
+            else if (count2 == 0)
+            {
+                candidate2 = x;
+                count2 = 1;
+            }
+            else
+            {
+                // Generate a "triplet".
+                --count1;
+                --count2;
+            }
+        }
+
+        vector<int> rv;
+        count1 = 0;
+        count2 = 0;
+        // Second scan.
+        for (const auto &x : nums) {
+            if (x == candidate1)
+                ++count1;
+            else if (x == candidate2)
+                ++count2;
+        }
+
+        if (count1 > int(nums.size() / 3))
+            rv.push_back(candidate1);
+        if (count2 > int(nums.size() / 3))
+            rv.push_back(candidate2);
+        return rv;
+    }
+};
+
+
+/* O(n) average time and O(1) *extra* (this solution will modify the
+ * input vector) space solution using partition. Note that there is a
+ * post about using some majority vote algorithm which does not
+ * modify the array:
+ * https://discuss.leetcode.com/topic/17564/boyer-moore-majority-vote-algorithm-and-my-elaboration
+ * */
+class PartitionSolution {
     void partition(vector<int>::iterator start,
             vector<int>::iterator end, int offset) {
 
